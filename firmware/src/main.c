@@ -5,10 +5,18 @@
 #include "sysfont.h"
 
 /*---------------- DEFINES ----------------*/
+
+// Buzzer
 #define BUZZER_PIO		PIOC
 #define BUZZER_PIO_ID	ID_PIOC
 #define BUZZER_PIO_IDX	13
 #define BUZZER_PIO_IDX_MASK	(1 << BUZZER_PIO_IDX)
+
+// Botão de START
+#define START_PIO		PIOD
+#define START_PIO_ID	ID_PIOD
+#define START_PIO_IDX	28
+#define START_PIO_IDX_MASK	(1 << BUT1_IDX)
 
 /*---------------- PROTÓTIPOS ----------------*/
 
@@ -18,6 +26,9 @@ void set_buzzer();
 // Põem 0 no PINO do buzzer
 void clear_buzzer();
 
+// Retorna status do botão (1/0)
+int get_startstop();
+
 /*---------------- FUNCOES ----------------*/
 
 void io_init(){
@@ -25,11 +36,14 @@ void io_init(){
 	// Desativa WatchDog Timer
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	
-	// Inicializa PIO do buzzer
+	// Inicializa PIO
 	pmc_enable_periph_clk(BUZZER_PIO_ID);
+	pmc_enable_periph_clk(START_PIO_ID);
 	
-	// Setando PINO do buzzer como output
+	// Configurando PINOS
 	pio_set_output(BUZZER_PIO, BUZZER_PIO_IDX_MASK, 1, 0, 0);
+	pio_configure(START_PIO, PIO_INPUT, START_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
+	pio_set_debounce_filter(START_PIO, START_PIO_IDX_MASK, 60);
 }
 
 
@@ -39,6 +53,10 @@ void set_buzzer(){
 
 void clear_buzzer(){
 	pio_clear(BUZZER_PIO, BUZZER_PIO_IDX_MASK);  
+}
+
+void get_startstop(){
+	return pio_get(START_PIO,PIO_INPUT,START_PIO_IDX_MASK);
 }
 
 /*----------------- MAIN -----------------*/
