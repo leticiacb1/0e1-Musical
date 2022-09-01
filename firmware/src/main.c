@@ -7,7 +7,6 @@
 #include "melodias/asa_branca.h"
 
 
-
 int ASA_BRANCA[] = {
 
 	// Asa branca - Luiz Gonzaga
@@ -90,15 +89,17 @@ void tone(int freq, int time){
 	float conversao_s_ms = 1000.0;
 	float periodo_ms = conversao_s_ms/(freq);
 	int qtd_pulsos = time/periodo_ms;
-	
+
 	for(int i = 0; i<qtd_pulsos; i++){
 		set_buzzer();
-		delay_ms(periodo_ms/2.0);
+		delay_us(periodo_ms*500);           // delay_ms *10^(3) = delau_us
 		clear_buzzer();
-		delay_ms(periodo_ms/2.0);
+		delay_us(periodo_ms*500);
 	}
-	
+
 }
+
+
 
 /*----------------- MAIN -----------------*/
 int main (void)
@@ -125,9 +126,23 @@ int main (void)
   /* Insert application code here, after the board has been initialized. */
 	while(1) {
 			
-		for (int freq=200; freq<5000; freq+=50){
+		//for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
+			
+			// calculates the duration of each note
+			//divider = ASA_BRANCA[thisNote + 1];
+			//noteDuration = (wholenote) / abs(divider);
+			
+			//if (divider < 0) {
+				//noteDuration *= 1.5;       // increases the duration in half for dotted notes
+			//}
+			
+			//tone(ASA_BRANCA[thisNote], noteDuration*0.9);
+			//delay_ms(1.0*noteDuration);
+		//}	
+		
+		for (int freq=500; freq<5000; freq+=500){
 			tone(freq, 200 + freq/2);
 			delay_ms(200);
-		}		 
+		}	 
 	}
 }
