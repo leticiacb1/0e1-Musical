@@ -555,6 +555,7 @@
     <Folder Include="src\ASF\thirdparty\CMSIS\Lib\" />
     <Folder Include="src\ASF\thirdparty\CMSIS\Lib\GCC\" />
     <Folder Include="src\config\" />
+    <Folder Include="src\melodias" />
     <Folder Include="src\oled" />
   </ItemGroup>
   <ItemGroup>
@@ -567,7 +568,13 @@
     <None Include="src\ASF\sam\drivers\tc\tc.h">
       <SubType>compile</SubType>
     </None>
+    <Compile Include="src\configuracoes.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\config\conf_sysfont.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\asa_branca.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\oled\gfx_mono.h">

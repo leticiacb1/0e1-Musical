@@ -3,44 +3,38 @@
 #include "gfx_mono_ug_2832hsweg04.h"
 #include "gfx_mono_text.h"
 #include "sysfont.h"
-
-/*---------------- DEFINES ----------------*/
-
-// Buzzer
-#define BUZZER_PIO		PIOC
-#define BUZZER_PIO_ID	ID_PIOC
-#define BUZZER_PIO_IDX	13
-#define BUZZER_PIO_IDX_MASK	(1 << BUZZER_PIO_IDX)
-
-// Botão de START
-#define START_PIO		PIOD
-#define START_PIO_ID	ID_PIOD
-#define START_PIO_IDX	28
-#define START_PIO_IDX_MASK	(1 << START_PIO_IDX)
-
-// Botão SELECT
-#define SELECAO_PIO		PIOC
-#define SELECAO_PIO_ID	ID_PIOC
-#define SELECAO_PIO_IDX	31
-#define SELECAO_PIO_IDX_MASK (1 << SELECAO_PIO_IDX)
+#include "configuracoes.h"
+#include "melodias/asa_branca.h"
 
 
-/*---------------- PROTÓTIPOS ----------------*/
 
-// Pôem 1 no PINO do buzzer
-void set_buzzer();
+int ASA_BRANCA[] = {
 
-// Põem 0 no PINO do buzzer
-void clear_buzzer();
+	// Asa branca - Luiz Gonzaga
+	// Score available at https://musescore.com/user/190926/scores/181370
 
-// Retorna status do botão START (1/0)
-int get_startstop();
+	NOTE_G4,8, NOTE_A4,8, NOTE_B4,4, NOTE_D5,4, NOTE_D5,4, NOTE_B4,4,
+	NOTE_C5,4, NOTE_C5,2, NOTE_G4,8, NOTE_A4,8,
+	NOTE_B4,4, NOTE_D5,4, NOTE_D5,4, NOTE_C5,4,
 
-// Retorna status do botão SELECAO (1/0)
-int get_selecao();
+	NOTE_B4,2, REST,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8,
+	NOTE_B4,4, NOTE_D5,4, REST,8, NOTE_D5,8, NOTE_C5,8, NOTE_B4,8,
+	NOTE_G4,4, NOTE_C5,4, REST,8, NOTE_C5,8, NOTE_B4,8, NOTE_A4,8,
 
-//Funcao para testar o buzzer
-void buzzer_test(int freq);
+	NOTE_A4,4, NOTE_B4,4, REST,8, NOTE_B4,8, NOTE_A4,8, NOTE_G4,8,
+	NOTE_G4,2, REST,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8,
+	NOTE_B4,4, NOTE_D5,4, REST,8, NOTE_D5,8, NOTE_C5,8, NOTE_B4,8,
+
+	NOTE_G4,4, NOTE_C5,4, REST,8, NOTE_C5,8, NOTE_B4,8, NOTE_A4,8,
+	NOTE_A4,4, NOTE_B4,4, REST,8, NOTE_B4,8, NOTE_A4,8, NOTE_G4,8,
+	NOTE_G4,4, NOTE_F5,8, NOTE_D5,8, NOTE_E5,8, NOTE_C5,8, NOTE_D5,8, NOTE_B4,8,
+
+	NOTE_C5,8, NOTE_A4,8, NOTE_B4,8, NOTE_G4,8, NOTE_A4,8, NOTE_G4,8, NOTE_E4,8, NOTE_G4,8,
+	NOTE_G4,4, NOTE_F5,8, NOTE_D5,8, NOTE_E5,8, NOTE_C5,8, NOTE_D5,8, NOTE_B4,8,
+	NOTE_C5,8, NOTE_A4,8, NOTE_B4,8, NOTE_G4,8, NOTE_A4,8, NOTE_G4,8, NOTE_E4,8, NOTE_G4,8,
+	NOTE_G4,-2, REST,4
+	
+};
 
 /*---------------- FUNCOES ----------------*/
 
@@ -92,6 +86,20 @@ void buzzer_test(int freq){
 	delay_us(conversao_s_us*meio_periodo);
 }
 
+void tone(int freq, int time){
+	float conversao_s_ms = 1000.0;
+	float periodo_ms = conversao_s_ms/(freq);
+	int qtd_pulsos = time/periodo_ms;
+	
+	for(int i = 0; i<qtd_pulsos; i++){
+		set_buzzer();
+		delay_ms(periodo_ms/2.0);
+		clear_buzzer();
+		delay_ms(periodo_ms/2.0);
+	}
+	
+}
+
 /*----------------- MAIN -----------------*/
 int main (void)
 {
@@ -102,6 +110,11 @@ int main (void)
   // Init button
 	io_init();
 	
+	int time = 120;
+	int wholenote =  (60000*4)/time;
+	int notes = sizeof(ASA_BRANCA) / sizeof(ASA_BRANCA) / 2;
+	int divider = 0, noteDuration = 0;
+	
   // Init OLED
   //gfx_mono_ssd1306_init();
   
@@ -111,6 +124,10 @@ int main (void)
 
   /* Insert application code here, after the board has been initialized. */
 	while(1) {
-		buzzer_test(5000);
+			
+		for (int freq=200; freq<5000; freq+=50){
+			tone(freq, 200 + freq/2);
+			delay_ms(200);
+		}		 
 	}
 }
