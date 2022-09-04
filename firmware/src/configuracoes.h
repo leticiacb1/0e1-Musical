@@ -14,6 +14,12 @@
 #define BUZZER_PIO_IDX	13
 #define BUZZER_PIO_IDX_MASK	(1 << BUZZER_PIO_IDX)
 
+// Led
+#define LED_PIO		PIOC
+#define LED_PIO_ID	ID_PIOC
+#define LED_PIO_IDX	8
+#define LED_PIO_IDX_MASK	(1 << LED_PIO_IDX)
+
 // Botão de START
 #define START_PIO		PIOD
 #define START_PIO_ID	ID_PIOD
@@ -34,6 +40,12 @@ void set_buzzer();
 
 // Põem 0 no PINO do buzzer
 void clear_buzzer();
+
+// Pôem 1 no PINO do LED
+void set_led();
+
+// Põem 0 no PINO do LED
+void clear_led();
 
 // Retorna status do botão START (1/0)
 int get_startstop();
