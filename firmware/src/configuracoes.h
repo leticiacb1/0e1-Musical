@@ -47,3 +47,6 @@ void buzzer_test(int freq);
 //Funcao para reproduzir a onda quadrada no pino
 void tone(int freq, int time);
 
+//toca musica
+void play(int freq, int time , int melodia[]);
+
