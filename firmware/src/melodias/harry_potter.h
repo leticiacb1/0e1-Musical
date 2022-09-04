@@ -1,8 +1,8 @@
 
 /*
- * asa_branca.h
+ * harry_potter.h
  *
- * Created: 04/09/2022 11:00:51
+ * Created: 04/09/2022 12:23:28
  *  Author: Leticia
  */ 
 
@@ -95,35 +95,50 @@
 #define NOTE_CS8 4435
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
-#define REST      0
+#define REST 0
 
-// Tempo da musica
-#define TIME_ASABRANCA 120;
+#define TIME_HARRYPOTTER 144
 
-int asa_branca_melody[] = {
+int harry_potter_melody[] = {
 
-	// Asa branca - Luiz Gonzaga
-	// Score available at https://musescore.com/user/190926/scores/181370
 
-	NOTE_G4,8, NOTE_A4,8, NOTE_B4,4, NOTE_D5,4, NOTE_D5,4, NOTE_B4,4,
-	NOTE_C5,4, NOTE_C5,2, NOTE_G4,8, NOTE_A4,8,
-	NOTE_B4,4, NOTE_D5,4, NOTE_D5,4, NOTE_C5,4,
+	// Hedwig's theme fromn the Harry Potter Movies
+	// Socre from https://musescore.com/user/3811306/scores/4906610
+	
+	REST, 2, NOTE_D4, 4,
+	NOTE_G4, -4, NOTE_AS4, 8, NOTE_A4, 4,
+	NOTE_G4, 2, NOTE_D5, 4,
+	NOTE_C5, -2,
+	NOTE_A4, -2,
+	NOTE_G4, -4, NOTE_AS4, 8, NOTE_A4, 4,
+	NOTE_F4, 2, NOTE_GS4, 4,
+	NOTE_D4, -1,
+	NOTE_D4, 4,
 
-	NOTE_B4,2, REST,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8,
-	NOTE_B4,4, NOTE_D5,4, REST,8, NOTE_D5,8, NOTE_C5,8, NOTE_B4,8,
-	NOTE_G4,4, NOTE_C5,4, REST,8, NOTE_C5,8, NOTE_B4,8, NOTE_A4,8,
+	NOTE_G4, -4, NOTE_AS4, 8, NOTE_A4, 4, //10
+	NOTE_G4, 2, NOTE_D5, 4,
+	NOTE_F5, 2, NOTE_E5, 4,
+	NOTE_DS5, 2, NOTE_B4, 4,
+	NOTE_DS5, -4, NOTE_D5, 8, NOTE_CS5, 4,
+	NOTE_CS4, 2, NOTE_B4, 4,
+	NOTE_G4, -1,
+	NOTE_AS4, 4,
+	
+	NOTE_D5, 2, NOTE_AS4, 4,//18
+	NOTE_D5, 2, NOTE_AS4, 4,
+	NOTE_DS5, 2, NOTE_D5, 4,
+	NOTE_CS5, 2, NOTE_A4, 4,
+	NOTE_AS4, -4, NOTE_D5, 8, NOTE_CS5, 4,
+	NOTE_CS4, 2, NOTE_D4, 4,
+	NOTE_D5, -1,
+	REST,4, NOTE_AS4,4,
 
-	NOTE_A4,4, NOTE_B4,4, REST,8, NOTE_B4,8, NOTE_A4,8, NOTE_G4,8,
-	NOTE_G4,2, REST,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8,
-	NOTE_B4,4, NOTE_D5,4, REST,8, NOTE_D5,8, NOTE_C5,8, NOTE_B4,8,
-
-	NOTE_G4,4, NOTE_C5,4, REST,8, NOTE_C5,8, NOTE_B4,8, NOTE_A4,8,
-	NOTE_A4,4, NOTE_B4,4, REST,8, NOTE_B4,8, NOTE_A4,8, NOTE_G4,8,
-	NOTE_G4,4, NOTE_F5,8, NOTE_D5,8, NOTE_E5,8, NOTE_C5,8, NOTE_D5,8, NOTE_B4,8,
-
-	NOTE_C5,8, NOTE_A4,8, NOTE_B4,8, NOTE_G4,8, NOTE_A4,8, NOTE_G4,8, NOTE_E4,8, NOTE_G4,8,
-	NOTE_G4,4, NOTE_F5,8, NOTE_D5,8, NOTE_E5,8, NOTE_C5,8, NOTE_D5,8, NOTE_B4,8,
-	NOTE_C5,8, NOTE_A4,8, NOTE_B4,8, NOTE_G4,8, NOTE_A4,8, NOTE_G4,8, NOTE_E4,8, NOTE_G4,8,
-	NOTE_G4,-2, REST,4
+	NOTE_D5, 2, NOTE_AS4, 4,//26
+	NOTE_D5, 2, NOTE_AS4, 4,
+	NOTE_F5, 2, NOTE_E5, 4,
+	NOTE_DS5, 2, NOTE_B4, 4,
+	NOTE_DS5, -4, NOTE_D5, 8, NOTE_CS5, 4,
+	NOTE_CS4, 2, NOTE_AS4, 4,
+	NOTE_G4, -1,
 	
 };
