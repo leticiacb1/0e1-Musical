@@ -8,7 +8,7 @@
 
 /*---------------- GLOBAIS ----------------*/
 
-volatile int IDX_PLAYLIST = 0;
+volatile int IDX_PLAYLIST = 5;
 
 /*---------------- FUNCOES ----------------*/
 
@@ -88,6 +88,40 @@ void tone(int freq, int time){
 
 }
 
+void play(music song){
+	
+	// Array de melodias
+	int *melody = (song.melody);
+	
+	// Variáveis
+	int wholenote = (60000 * 4) / song.music_time;
+	int divider = 0, noteDuration = 0;
+	int notes = song.size / sizeof((*melody)) / 2;
+	
+	
+	for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
+		
+		divider = melody[thisNote + 1];
+		noteDuration = (wholenote) / abs(divider);
+		
+		// increases the duration in half for dotted notes
+		if (divider < 0) {
+			noteDuration *= 1.5;                                     
+		}
+		
+		// we only play the note for 90% of the duration, leaving 10% as a pause
+		tone(melody[thisNote], noteDuration * 0.9 );
+
+		// Wait for the specief duration before playing the next note.
+		delay_ms(noteDuration*0.1);
+
+		// stop the waveform generation before the next note.
+		clear_buzzer();
+
+	}
+	
+}
+
 /*---------------- MAIN ----------------*/
 
 int main (void)
@@ -110,32 +144,6 @@ int main (void)
 		
 		// Musica selecionada
 		music song = playlist[IDX_PLAYLIST];
-		int *melody = (song.melody);
-		
-		// Variáveis
-		int wholenote = (60000 * 4) / song.music_time;
-		int divider = 0, noteDuration = 0;
-		int notes = song.size / sizeof((*melody)) / 2;
-		
-		
-		for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
-			
-			divider = melody[thisNote + 1];
-			noteDuration = (wholenote) / abs(divider);
-			
-			if (divider < 0) {
-				noteDuration *= 1.5;                                      // increases the duration in half for dotted notes
-			}
-			
-			// we only play the note for 90% of the duration, leaving 10% as a pause
-			tone(melody[thisNote], noteDuration * 0.9 );
-
-			// Wait for the specief duration before playing the next note.
-			delay_ms(noteDuration*0.1);
-
-			// stop the waveform generation before the next note.
-			clear_buzzer();
-
-		}
+		play(song);
 	}
 }

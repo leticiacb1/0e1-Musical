@@ -76,4 +76,7 @@ void tone(int freq, int time);
 //Funcao para preencher playlist com musicas
 void fill_playlist(music* playlist);
 
+// Toca musica
+void play(music song);
+
 
