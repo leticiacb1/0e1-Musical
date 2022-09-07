@@ -10,26 +10,66 @@
 
 volatile int IDX_PLAYLIST = 5;
 
+/* flag */
+
+// Inicializa tocando música (1) e SELECT não pressionado
+volatile char but_START_PAUSE_flag = 1; 
+volatile char but_SELECT_flag = 0; 
+
+
+/*---------------- CALLBACKS ----------------*/
+
+void but_start_pause_callback(void)
+{
+	if( but_START_PAUSE_flag == 1 ){
+		
+		// Caso esteja em "play" pausar
+		but_START_PAUSE_flag = 0;
+	}else{
+		
+		// Caso esteja em "pause" dar play
+		but_START_PAUSE_flag = 1;
+	}
+}
+
+
 /*---------------- FUNCOES ----------------*/
 
 void io_init(){
 	
-	// -- Desativa WatchDog Timer --
+	// ----- Desativa WatchDog Timer -----
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	
-	// -- Inicializa PIO --
+	// ----- Inicializa PIO -----
 	pmc_enable_periph_clk(BUZZER_PIO_ID);
 	pmc_enable_periph_clk(START_PIO_ID);
 	pmc_enable_periph_clk(SELECAO_PIO_ID);
 	
-	// -- Configurando PINOS --
+	// ----- Configurando PINOS -----
 	pio_set_output(BUZZER_PIO, BUZZER_PIO_IDX_MASK, 1, 0, 0);
 	
-	// Inputs
+	//  ----- Inputs -----
 	pio_configure(START_PIO, PIO_INPUT, START_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(START_PIO, START_PIO_IDX_MASK, 60);
 	pio_configure(SELECAO_PIO, PIO_INPUT, SELECAO_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(SELECAO_PIO, SELECAO_PIO_IDX_MASK, 60);
+	
+	// ----- Configurando interrupts ----- 
+	
+	// Configurando função callback paa botao START_PAUSE
+	pio_handler_set(START_PIO,
+					START_PIO_ID,
+					START_PIO_IDX_MASK,
+					PIO_IT_FALL_EDGE,
+					but_start_pause_callback);
+	
+	// Ativa interrupção e limpa primeira IRQ gerada na ativacao
+	pio_enable_interrupt(START_PIO, START_PIO_IDX_MASK);
+	pio_get_interrupt_status(START_PIO);
+	
+	// Configura NVIC para receber interrupcoes do PIO do botao com prioridade 4 
+	NVIC_EnableIRQ(START_PIO_ID);
+	NVIC_SetPriority(START_PIO_ID, 4); 
 }
 
 void set_buzzer(){
@@ -55,19 +95,6 @@ int get_startstop(){
 
 int get_selecao(){
 	return pio_get(SELECAO_PIO,PIO_INPUT,SELECAO_PIO_IDX_MASK);
-}
-
-
-// Função teste
-void buzzer_test(int freq){
-	
-	int conversao_s_us = 1000000.0;
-	float meio_periodo = 1.0/(2*freq);
-	
-	set_buzzer();
-	delay_us(conversao_s_us*meio_periodo);
-	clear_buzzer();
-	delay_us(conversao_s_us*meio_periodo);
 }
 
 /**
@@ -99,7 +126,7 @@ void play(music song){
 	int notes = song.size / sizeof((*melody)) / 2;
 	
 	
-	for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
+	for (int thisNote = 0; ((thisNote < notes * 2) && but_START_PAUSE_flag); thisNote = thisNote + 2) {
 		
 		divider = melody[thisNote + 1];
 		noteDuration = (wholenote) / abs(divider);
