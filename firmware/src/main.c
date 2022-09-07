@@ -8,7 +8,8 @@
 
 /*---------------- GLOBAIS ----------------*/
 
-volatile int IDX_PLAYLIST = 5;
+volatile int IDX_PLAYLIST = 2;
+volatile int init_state = 0;
 
 /* flag */
 
@@ -125,17 +126,16 @@ void play(music song){
 	int divider = 0, noteDuration = 0;
 	int notes = song.size / sizeof((*melody)) / 2;
 	
-	
-	for (int thisNote = 0; ((thisNote < notes * 2) && but_START_PAUSE_flag); thisNote = thisNote + 2) {
+	for(int thisNote = init_state; (thisNote < notes * 2) && but_START_PAUSE_flag ; thisNote = thisNote + 2){
 		
 		divider = melody[thisNote + 1];
 		noteDuration = (wholenote) / abs(divider);
 		
 		// increases the duration in half for dotted notes
 		if (divider < 0) {
-			noteDuration *= 1.5;                                     
+			noteDuration *= 1.5;
 		}
-		
+
 		// we only play the note for 90% of the duration, leaving 10% as a pause
 		tone(melody[thisNote], noteDuration * 0.9 );
 
@@ -144,7 +144,15 @@ void play(music song){
 
 		// stop the waveform generation before the next note.
 		clear_buzzer();
-
+		
+		// Setando variável de controle para play/pause.
+		init_state = thisNote;
+		
+		// Reinicializando
+		if(thisNote == (2*notes - 2)){
+			init_state = 0;
+		}
+		
 	}
 	
 }
@@ -171,6 +179,10 @@ int main (void)
 		
 		// Musica selecionada
 		music song = playlist[IDX_PLAYLIST];
-		play(song);
+		
+		if(but_START_PAUSE_flag){
+			play(song);
+		}
+		
 	}
 }
