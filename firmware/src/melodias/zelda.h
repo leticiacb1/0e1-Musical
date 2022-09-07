@@ -97,7 +97,7 @@
 #define NOTE_DS8 4978
 #define REST 0
 
-#define TIME_ZELDA 88;
+#define TIME_ZELDA 88
 
 int zelda_melody[] = {
 

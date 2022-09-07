@@ -557,6 +557,9 @@
     <Folder Include="src\oled" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\asf.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\ASF\sam\drivers\spi\spi.c">
       <SubType>compile</SubType>
     </Compile>
@@ -600,9 +603,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\musicas.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\oled\asf.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\oled\gfx_mono.h">

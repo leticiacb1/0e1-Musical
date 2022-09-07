@@ -73,9 +73,7 @@ void buzzer_test(int freq);
 //Funcao para reproduzir a onda quadrada no pino
 void tone(int freq, int time);
 
-void cria_playlist(music *pplaylist);
-
-//toca musica
-//void play(int freq, int time , int melodia[]);
+//Funcao para preencher playlist com musicas
+void fill_playlist(music* playlist);
 
 

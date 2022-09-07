@@ -4,11 +4,11 @@
 #include "gfx_mono_text.h"
 #include "sysfont.h"
 #include "configuracoes.h"
+#include "musicas.h"
 
-// Arquivos de músicas
+/*---------------- GLOBAIS ----------------*/
 
-#include "melodias/asa_branca.h"
-#include "melodias/mario.h"
+volatile int IDX_PLAYLIST = 0;
 
 /*---------------- FUNCOES ----------------*/
 
@@ -88,6 +88,8 @@ void tone(int freq, int time){
 
 }
 
+/*---------------- MAIN ----------------*/
+
 int main (void)
 {
 	
@@ -98,25 +100,23 @@ int main (void)
 	
 	// Init button
 	io_init();
+	
+	// Preenchendo playlist de música
+	music playlist[9];
+	fill_playlist(playlist);
   
-	// Inicializa playlist de musicas	
-	music mario = {"MARIO WORLD", TIME_MARIO, &mario_melody , SIZE_MARIO};
-	music asa_branca = {"ASA BRANCA", TIME_ASABRANCA, &asa_branca_melody, SIZE_ASA};
-	
-	music playlist[] = {mario, asa_branca};
-	
-	// Musica selecionada
-	music song = playlist[1];
-	
-	//  Endereço do primeiro elemento do array de notas
-	int *melody = (song.melody);
-	
-	int wholenote = (60000 * 4) / song.music_time;
-	int divider = 0, noteDuration = 0, lastNoteDuration = 0;
-	int notes = song.size / sizeof((*melody)) / 2;
-	
 	/* Insert application code here, after the board has been initialized. */
 	while(1) {
+		
+		// Musica selecionada
+		music song = playlist[IDX_PLAYLIST];
+		int *melody = (song.melody);
+		
+		// Variáveis
+		int wholenote = (60000 * 4) / song.music_time;
+		int divider = 0, noteDuration = 0;
+		int notes = song.size / sizeof((*melody)) / 2;
+		
 		
 		for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
 			
@@ -135,7 +135,6 @@ int main (void)
 
 			// stop the waveform generation before the next note.
 			clear_buzzer();
-			lastNoteDuration = noteDuration;
 
 		}
 	}

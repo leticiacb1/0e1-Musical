@@ -6,7 +6,8 @@
  *  Author: Leticia
  */ 
 
-/*
+
+#include "configuracoes.h"
 #include "melodias/asa_branca.h"
 #include "melodias/doom.h"
 #include "melodias/game_of_thrones.h"
@@ -18,70 +19,27 @@
 #include "melodias/zelda.h"
 
 
-#ifndef MUSIC
-#define MUSIC
-struct Music {
-	char name[50];
-	int music_time;
-	int *melody;
-};
-#endif
-
-typedef struct Music music;
-
-music* playlist[];
-
-void cria_playlist(){
+void fill_playlist(music* playlist){
 	
-	music mario = {"MARIO WORLD", TIME_MARIO, &mario_melody};
-	music asa_branca = {"ASA BRANCA", TIME_ASABRANCA, &asa_branca_melody};
+	//Definindo structs de musicas
+	music asa_branca = {"ASA BRANCA", TIME_ASABRANCA, &asa_branca_melody, SIZE_ASA};
+	music doom = {"DOOM", TIME_DOOM, &doom_melody, SIZE_DOOM};
+	music game_of_thrones = {"GAME OF THRONES", TIME_GAMEOFTHRONES, &game_of_thrones_melody , SIZE_GAMEOFTHRONES};
+	music harry_potter = {"HARRY POTTER", TIME_HARRYPOTTER, &harry_potter_melody , SIZE_HARRYPOTTER};
+	music mario = {"MARIO WORLD", TIME_MARIO, &mario_melody , SIZE_MARIO};
+	music pacman = {"PACMAN", TIME_PACMAN, &pacman_melody , SIZE_PACMAN};
+	music star_wars = {"STAR WARS", TIME_STARWARS, &star_wars_melody , SIZE_STARWARS};
+	music the_god_father = {"GOD FATHER", TIME_THEGODFATHER, &the_god_father_melody, SIZE_THEGODFATHER};
+	music zelda = {"ZELDA", TIME_ZELDA, &zelda_melody , SIZE_ZELDA};
 	
-	*playlist = {&mario, &asa_branca};
+	// Preenchendo playlist
+	playlist[0] = asa_branca;
+	playlist[1] = doom;
+	playlist[2] = game_of_thrones;
+	playlist[3] = harry_potter;
+	playlist[4] = mario;
+	playlist[5] = pacman;
+	playlist[6] = star_wars;
+	playlist[7] = the_god_father;
+	playlist[8] = zelda;
 }
-
-
-
-/*																																																																																																																																																																																																																																																																																																																																													
-music doom;
-doom.name = "DOOM";
-doom.music_time = TIME_DOOM;
-doom.melody =  doom_melody;
-
-music game_of_thrones;
-game_of_thrones.name = "GAME OF THRONES";
-game_of_thrones.music_time = TIME_GAMEOFTHRONES;
-game_of_thrones.melody =  game_of_thrones_melody;
-
-music harry_potter;
-harry_potter.name = "HARRY POTTER";
-harry_potter.music_time = TIME_HARRYPOTTER;
-harry_potter.melody =  harry_potter_melody;
-
-
-
-
-music pacman;
-pacman.name = "PACMAN";
-pacman.music_time = TIME_PACMAN;
-pacman.melody =  pacman_melody;
-
-
-music starwars;
-starwars.name = "START WARS";
-starwars.music_time = TIME_STARWARS;
-starwars.melody =  star_wars_melody;
-
-music the_god_father;
-the_god_father.name = "THE GOD FATHER";
-the_god_father.music_time = TIME_THEGODFATHER;
-the_god_father.melody =  the_god_father_melody;
-
-music zelda;
-zelda.name = "ZELDA THEME";
-zelda.music_time = TIME_ZELDA;
-zelda.melody =  zelda_melody;
-
-
-music playlist[] = {asa_branca}; //doom, game_of_thrones, harry_potter, mario, pacman , starwars, the_god_father, zelda };
-*/ 
-	
