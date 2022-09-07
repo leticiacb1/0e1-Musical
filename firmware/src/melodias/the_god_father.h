@@ -138,3 +138,5 @@ int the_god_father_melody[] = {
 	
 	NOTE_E4, 2 //13
 };
+
+#define SIZE_THEGODFATHER sizeof(the_god_father_melody)

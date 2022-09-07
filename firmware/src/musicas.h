@@ -6,7 +6,7 @@
  *  Author: Leticia
  */ 
 
-
+/*
 #include "melodias/asa_branca.h"
 #include "melodias/doom.h"
 #include "melodias/game_of_thrones.h"
@@ -18,17 +18,30 @@
 #include "melodias/zelda.h"
 
 
-typedef struct {
+#ifndef MUSIC
+#define MUSIC
+struct Music {
 	char name[50];
 	int music_time;
-	int melody[200];
-} music;
+	int *melody;
+};
+#endif
 
-music asa_branca;
-asa_branca.name = "ASA BRANCA";
-asa_branca.music_time = TIME_ASABRANCA;
-asa_branca.melody =  asa_branca_melody;
+typedef struct Music music;
 
+music* playlist[];
+
+void cria_playlist(){
+	
+	music mario = {"MARIO WORLD", TIME_MARIO, &mario_melody};
+	music asa_branca = {"ASA BRANCA", TIME_ASABRANCA, &asa_branca_melody};
+	
+	*playlist = {&mario, &asa_branca};
+}
+
+
+
+/*																																																																																																																																																																																																																																																																																																																																													
 music doom;
 doom.name = "DOOM";
 doom.music_time = TIME_DOOM;
@@ -44,10 +57,7 @@ harry_potter.name = "HARRY POTTER";
 harry_potter.music_time = TIME_HARRYPOTTER;
 harry_potter.melody =  harry_potter_melody;
 
-music mario;
-mario.name = "MARIO WORLD";
-mario.music_time = TIME_MARIO;
-mario.melody =  mario_melody;
+
 
 
 music pacman;
@@ -72,3 +82,6 @@ zelda.music_time = TIME_ZELDA;
 zelda.melody =  zelda_melody;
 
 
+music playlist[] = {asa_branca}; //doom, game_of_thrones, harry_potter, mario, pacman , starwars, the_god_father, zelda };
+*/ 
+	

@@ -100,7 +100,7 @@
 // fim das notas
 
 // Tempo da musica
-#define TIME_MARIO 200;
+#define TIME_MARIO 200 
 
 //melody
 int mario_melody[] = {
@@ -194,3 +194,5 @@ int mario_melody[] = {
 	NOTE_G4,8, NOTE_D4,8, NOTE_E4,-2,
 
 };
+
+#define SIZE_MARIO sizeof(mario_melody)

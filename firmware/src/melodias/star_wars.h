@@ -126,3 +126,5 @@ int star_wars_melody[] = {
 	NOTE_C6,1
 	
 };
+
+#define SIZE_STARWARS sizeof(star_wars_melody)

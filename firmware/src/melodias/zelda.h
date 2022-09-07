@@ -134,3 +134,5 @@ int zelda_melody[] = {
 	NOTE_F5,16, NOTE_F4,16, NOTE_F4,16, NOTE_F4,16,NOTE_F4,16,NOTE_F4,16,NOTE_F4,16,NOTE_F4,16,NOTE_F4,8, NOTE_F4,16,NOTE_F4,8
 	
 };
+
+#define SIZE_ZELDA sizeof(zelda_melody)

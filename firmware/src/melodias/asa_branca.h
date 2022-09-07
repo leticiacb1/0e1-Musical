@@ -98,7 +98,7 @@
 #define REST      0
 
 // Tempo da musica
-#define TIME_ASABRANCA 120;
+#define TIME_ASABRANCA 120 
 
 int asa_branca_melody[] = {
 
@@ -127,3 +127,5 @@ int asa_branca_melody[] = {
 	NOTE_G4,-2, REST,4
 	
 };
+
+#define SIZE_ASA sizeof(asa_branca_melody)

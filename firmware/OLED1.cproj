@@ -239,10 +239,9 @@
         <board id="board.same70_xplained" value="Add" config="" content-id="Atmel.ASF" />
       </framework-data>
     </AsfFrameworkConfig>
-    <avrtool>
-    </avrtool>
+    <avrtool>com.atmel.avrdbg.tool.edbg</avrtool>
     <avrtoolserialnumber>ATML2637010000000000</avrtoolserialnumber>
-    <avrdeviceexpectedsignature>0xA1020E00</avrdeviceexpectedsignature>
+    <avrdeviceexpectedsignature>0xA1020E01</avrdeviceexpectedsignature>
     <avrtoolinterface>SWD</avrtoolinterface>
     <com_atmel_avrdbg_tool_edbg>
       <ToolOptions>
@@ -424,7 +423,6 @@
       <Value>../src/ASF/sam/drivers/tc</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>
-  <armgcc.compiler.optimization.level>Optimize (-O1)</armgcc.compiler.optimization.level>
   <armgcc.compiler.optimization.OtherFlags>-fdata-sections</armgcc.compiler.optimization.OtherFlags>
   <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
   <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
@@ -577,6 +575,36 @@
     <Compile Include="src\melodias\asa_branca.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\melodias\doom.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\game_of_thrones.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\harry_potter.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\mario.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\pacman.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\star_wars.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\the_god_father.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\melodias\zelda.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\musicas.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\oled\asf.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\oled\gfx_mono.h">
       <SubType>compile</SubType>
     </Compile>
@@ -626,9 +654,6 @@
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\ASF\common\services\delay\sam\cycle_counter.h">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\asf.h">
       <SubType>compile</SubType>
     </None>
     <None Include="src\config\conf_clock.h">

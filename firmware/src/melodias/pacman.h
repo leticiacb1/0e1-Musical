@@ -114,3 +114,5 @@ int pacman_melody[] = {
 	NOTE_FS5, -16, NOTE_DS5, 8,  NOTE_DS5, 32, NOTE_E5, 32,  NOTE_F5, 32,
 	NOTE_F5, 32,  NOTE_FS5, 32,  NOTE_G5, 32,  NOTE_G5, 32, NOTE_GS5, 32,  NOTE_A5, 16, NOTE_B5, 8
 };
+
+#define SIZE_PACMAN sizeof(pacman_melody)

@@ -8,6 +8,18 @@
 
 /*---------------- DEFINES ----------------*/
 
+#ifndef MUSIC
+#define MUSIC
+struct Music {
+	char name[50];
+	int music_time;
+	int *melody;
+	int size;
+};
+#endif
+
+typedef struct Music music;
+
 // Buzzer
 #define BUZZER_PIO		PIOC
 #define BUZZER_PIO_ID	ID_PIOC
@@ -35,6 +47,8 @@
 
 /*---------------- PROTÓTIPOS ----------------*/
 
+void io_init();
+
 // Pôem 1 no PINO do buzzer
 void set_buzzer();
 
@@ -59,6 +73,9 @@ void buzzer_test(int freq);
 //Funcao para reproduzir a onda quadrada no pino
 void tone(int freq, int time);
 
+void cria_playlist(music *pplaylist);
+
 //toca musica
-void play(int freq, int time , int melodia[]);
+//void play(int freq, int time , int melodia[]);
+
 

@@ -142,3 +142,5 @@ int harry_potter_melody[] = {
 	NOTE_G4, -1,
 	
 };
+
+#define SIZE_HARRYPOTTER sizeof(harry_potter_melody)

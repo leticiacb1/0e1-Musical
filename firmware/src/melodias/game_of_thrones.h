@@ -152,3 +152,5 @@ int game_of_thrones_melody[] = {
 	REST,4, NOTE_GS5,16, NOTE_AS5,16, NOTE_C6,8, NOTE_G5,8, NOTE_GS5,16, NOTE_AS5,16,
 	NOTE_C6,8, NOTE_G5,16, NOTE_GS5,16, NOTE_AS5,16, NOTE_C6,8, NOTE_G5,8, NOTE_GS5,16, NOTE_AS5,16,
 };
+
+#define SIZE_GAMEOFTHRONES sizeof(game_of_thrones_melody)
