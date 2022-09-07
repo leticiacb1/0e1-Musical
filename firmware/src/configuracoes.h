@@ -39,10 +39,10 @@ typedef struct Music music;
 #define START_PIO_IDX_MASK	(1 << START_PIO_IDX)
 
 // Botão SELECT
-#define SELECAO_PIO		PIOC
-#define SELECAO_PIO_ID	ID_PIOC
-#define SELECAO_PIO_IDX	31
-#define SELECAO_PIO_IDX_MASK (1 << SELECAO_PIO_IDX)
+#define SELECT_PIO		PIOC
+#define SELECT_PIO_ID	ID_PIOC
+#define SELECT_PIO_IDX	31
+#define SELECT_PIO_IDX_MASK (1 << SELECT_PIO_IDX)
 
 
 /*---------------- PROTÓTIPOS ----------------*/

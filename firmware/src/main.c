@@ -8,7 +8,7 @@
 
 /*---------------- GLOBAIS ----------------*/
 
-volatile int IDX_PLAYLIST = 2;
+volatile int SELECT_IDX_PLAYLIST = 0;
 volatile int init_state = 0;
 
 /* flag */
@@ -33,6 +33,18 @@ void but_start_pause_callback(void)
 	}
 }
 
+void but_select_callback(void){
+	
+	but_SELECT_flag = 1;
+		
+	if(SELECT_IDX_PLAYLIST >= 8){
+		SELECT_IDX_PLAYLIST=0;
+	}else{
+		SELECT_IDX_PLAYLIST+=1;
+	}
+		
+}
+
 
 /*---------------- FUNCOES ----------------*/
 
@@ -44,7 +56,7 @@ void io_init(){
 	// ----- Inicializa PIO -----
 	pmc_enable_periph_clk(BUZZER_PIO_ID);
 	pmc_enable_periph_clk(START_PIO_ID);
-	pmc_enable_periph_clk(SELECAO_PIO_ID);
+	pmc_enable_periph_clk(SELECT_PIO_ID);
 	
 	// ----- Configurando PINOS -----
 	pio_set_output(BUZZER_PIO, BUZZER_PIO_IDX_MASK, 1, 0, 0);
@@ -52,25 +64,38 @@ void io_init(){
 	//  ----- Inputs -----
 	pio_configure(START_PIO, PIO_INPUT, START_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(START_PIO, START_PIO_IDX_MASK, 60);
-	pio_configure(SELECAO_PIO, PIO_INPUT, SELECAO_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
-	pio_set_debounce_filter(SELECAO_PIO, SELECAO_PIO_IDX_MASK, 60);
+	pio_configure(SELECT_PIO, PIO_INPUT, SELECT_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
+	pio_set_debounce_filter(SELECT_PIO, SELECT_PIO_IDX_MASK, 60);
 	
 	// ----- Configurando interrupts ----- 
 	
-	// Configurando função callback paa botao START_PAUSE
+	// Configurando função callback para botao START_PAUSE
 	pio_handler_set(START_PIO,
 					START_PIO_ID,
 					START_PIO_IDX_MASK,
 					PIO_IT_FALL_EDGE,
 					but_start_pause_callback);
-	
+					
+	// Configurando função callback para botao SELECT
+	pio_handler_set(SELECT_PIO,
+					SELECT_PIO_ID,
+					SELECT_PIO_IDX_MASK,
+					PIO_IT_FALL_EDGE,
+					but_select_callback);
+					
 	// Ativa interrupção e limpa primeira IRQ gerada na ativacao
 	pio_enable_interrupt(START_PIO, START_PIO_IDX_MASK);
 	pio_get_interrupt_status(START_PIO);
 	
+	pio_enable_interrupt(SELECT_PIO, SELECT_PIO_IDX_MASK);
+	pio_get_interrupt_status(SELECT_PIO);
+	
 	// Configura NVIC para receber interrupcoes do PIO do botao com prioridade 4 
 	NVIC_EnableIRQ(START_PIO_ID);
 	NVIC_SetPriority(START_PIO_ID, 4); 
+	
+	NVIC_EnableIRQ(SELECT_PIO_ID);
+	NVIC_SetPriority(SELECT_PIO_ID, 4); 
 }
 
 void set_buzzer(){
@@ -95,7 +120,7 @@ int get_startstop(){
 }
 
 int get_selecao(){
-	return pio_get(SELECAO_PIO,PIO_INPUT,SELECAO_PIO_IDX_MASK);
+	return pio_get(SELECT_PIO,PIO_INPUT,SELECT_PIO_IDX_MASK);
 }
 
 /**
@@ -126,7 +151,7 @@ void play(music song){
 	int divider = 0, noteDuration = 0;
 	int notes = song.size / sizeof((*melody)) / 2;
 	
-	for(int thisNote = init_state; (thisNote < notes * 2) && but_START_PAUSE_flag ; thisNote = thisNote + 2){
+	for(int thisNote = init_state; (thisNote < notes * 2) && but_START_PAUSE_flag && !but_SELECT_flag ; thisNote = thisNote + 2){
 		
 		divider = melody[thisNote + 1];
 		noteDuration = (wholenote) / abs(divider);
@@ -178,10 +203,15 @@ int main (void)
 	while(1) {
 		
 		// Musica selecionada
-		music song = playlist[IDX_PLAYLIST];
-		
-		if(but_START_PAUSE_flag){
+		music song = playlist[SELECT_IDX_PLAYLIST];
+			
+		if(but_START_PAUSE_flag && !but_SELECT_flag){
 			play(song);
+		}
+		
+		if(but_SELECT_flag){
+			init_state = 0;
+			but_SELECT_flag = 0;
 		}
 		
 	}
