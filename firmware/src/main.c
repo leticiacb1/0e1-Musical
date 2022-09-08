@@ -67,8 +67,17 @@ void io_init(){
 	pmc_enable_periph_clk(START_PIO_ID);
 	pmc_enable_periph_clk(SELECT_PIO_ID);
 	
+	pmc_enable_periph_clk(LED1_PIO_ID);
+	pmc_enable_periph_clk(LED2_PIO_ID);
+	pmc_enable_periph_clk(LED3_PIO_ID);
+	
+	
 	// ----- Configurando PINOS -----
 	pio_set_output(BUZZER_PIO, BUZZER_PIO_IDX_MASK, 1, 0, 0);
+	
+	pio_set_output(LED1_PIO, LED1_PIO_IDX_MASK, 1, 0, 0);
+	pio_set_output(LED2_PIO, LED2_PIO_IDX_MASK, 1, 0, 0);
+	pio_set_output(LED3_PIO, LED3_PIO_IDX_MASK, 1, 0, 0);
 	
 	//  ----- Inputs -----
 	pio_configure(INIT_PIO, PIO_INPUT, INIT_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
@@ -129,12 +138,28 @@ void clear_buzzer(){
 	pio_clear(BUZZER_PIO, BUZZER_PIO_IDX_MASK);
 }
 
-void set_led(){
-	pio_set(LED_PIO, LED_PIO_IDX_MASK);
+void set_led1(){
+	pio_set(LED1_PIO, LED1_PIO_IDX_MASK);
 }
 
-void clear_led(){
-	pio_clear(LED_PIO, LED_PIO_IDX_MASK);
+void clear_led1(){
+	pio_clear(LED1_PIO, LED1_PIO_IDX_MASK);
+}
+
+void set_led2(){
+	pio_set(LED2_PIO, LED2_PIO_IDX_MASK);
+}
+
+void clear_led2(){
+	pio_clear(LED2_PIO, LED2_PIO_IDX_MASK);
+}
+
+void set_led3(){
+	pio_set(LED3_PIO, LED3_PIO_IDX_MASK);
+}
+
+void clear_led3(){
+	pio_clear(LED3_PIO, LED3_PIO_IDX_MASK);
 }
 
 
@@ -150,6 +175,28 @@ int get_init(){
 	return pio_get(INIT_PIO,PIO_INPUT,INIT_PIO_IDX_MASK);
 }
 
+void apaga_leds(){
+	set_led1();
+	set_led2();
+	set_led3();
+}
+
+void acende_leds(int freq){
+	if(freq<150 || freq>1500){
+		clear_led1();
+		set_led2();
+		set_led3();
+	}else if(freq < 500  && freq > 250){
+		clear_led2();
+		set_led1();
+		set_led3();
+	}else{
+		clear_led3();
+		set_led1();
+		set_led2();
+	}
+}
+
 /**
 * freq: Frequecia em Hz
 * time: Tempo em ms que o tom deve ser gerado
@@ -160,12 +207,17 @@ void tone(int freq, int time){
 	int qtd_pulsos = time/periodo_ms;
 	
 	for(int i = 0; i<qtd_pulsos; i++){
+		
+		acende_leds(freq);	
 		set_buzzer();
-		clear_led();
+		
 		delay_us(periodo_ms*500);           // (delay_ms *10^(3))/2 = delau_us
-		clear_buzzer();
-		set_led();
+		
+		apaga_leds();
+		clear_buzzer();		
+		
 		delay_us(periodo_ms*500);
+	
 	}
 
 }
@@ -232,11 +284,6 @@ void limpa_play(){
 	gfx_mono_generic_draw_vertical_line(16, 8, 6, GFX_PIXEL_CLR );
 }
 
-// ------------ DA POBLEMA -------
-void limpa_estado(){
-	gfx_mono_draw_filled_rect(10,5, 10,12, GFX_PIXEL_CLR);
-}
-
 void limpa_nome(){
 	gfx_mono_draw_filled_rect(48,6,86,10, GFX_PIXEL_CLR);
 }
@@ -296,6 +343,7 @@ void anima_init(){
 			
 		delay_ms(50);
 		gfx_mono_draw_string(".", i , 3, &sysfont);
+		delay_ms(50);
 	
 		if(i == 127){
 			i = 0;
