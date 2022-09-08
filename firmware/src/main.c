@@ -10,15 +10,23 @@
 
 volatile int SELECT_IDX_PLAYLIST = 0;
 volatile int init_state = 0;
+volatile int apena_1_vez = 1;
 
 /* flag */
 
-// Inicializa tocando música (1) e SELECT não pressionado
+// Inicializa música funcionando (1) e SELECT não pressionado
 volatile char but_START_PAUSE_flag = 1; 
 volatile char but_SELECT_flag = 0; 
+volatile char init_screen = 1;
 
 
 /*---------------- CALLBACKS ----------------*/
+
+void but_init(void){
+	if(get_init() == 0 && init_screen == 1){
+		init_screen = 0;
+	}
+}
 
 void but_start_pause_callback(void)
 {
@@ -55,6 +63,7 @@ void io_init(){
 	
 	// ----- Inicializa PIO -----
 	pmc_enable_periph_clk(BUZZER_PIO_ID);
+	pmc_enable_periph_clk(INIT_PIO_ID);
 	pmc_enable_periph_clk(START_PIO_ID);
 	pmc_enable_periph_clk(SELECT_PIO_ID);
 	
@@ -62,12 +71,20 @@ void io_init(){
 	pio_set_output(BUZZER_PIO, BUZZER_PIO_IDX_MASK, 1, 0, 0);
 	
 	//  ----- Inputs -----
+	pio_configure(INIT_PIO, PIO_INPUT, INIT_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
+	pio_set_debounce_filter(INIT_PIO, INIT_PIO_IDX_MASK, 60);
 	pio_configure(START_PIO, PIO_INPUT, START_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(START_PIO, START_PIO_IDX_MASK, 60);
 	pio_configure(SELECT_PIO, PIO_INPUT, SELECT_PIO_IDX_MASK, PIO_PULLUP | PIO_DEBOUNCE);
 	pio_set_debounce_filter(SELECT_PIO, SELECT_PIO_IDX_MASK, 60);
 	
 	// ----- Configurando interrupts ----- 
+	
+	pio_handler_set(INIT_PIO,
+					INIT_PIO_ID,
+					INIT_PIO_IDX_MASK,
+					PIO_IT_FALL_EDGE,
+					but_init);
 	
 	// Configurando função callback para botao START_PAUSE
 	pio_handler_set(START_PIO,
@@ -90,12 +107,18 @@ void io_init(){
 	pio_enable_interrupt(SELECT_PIO, SELECT_PIO_IDX_MASK);
 	pio_get_interrupt_status(SELECT_PIO);
 	
+	pio_enable_interrupt(INIT_PIO, INIT_PIO_IDX_MASK);
+	pio_get_interrupt_status(INIT_PIO);
+	
 	// Configura NVIC para receber interrupcoes do PIO do botao com prioridade 4 
 	NVIC_EnableIRQ(START_PIO_ID);
 	NVIC_SetPriority(START_PIO_ID, 4); 
 	
 	NVIC_EnableIRQ(SELECT_PIO_ID);
 	NVIC_SetPriority(SELECT_PIO_ID, 4); 
+	
+	NVIC_EnableIRQ(INIT_PIO_ID);
+	NVIC_SetPriority(INIT_PIO_ID, 4); 
 }
 
 void set_buzzer(){
@@ -123,6 +146,10 @@ int get_selecao(){
 	return pio_get(SELECT_PIO,PIO_INPUT,SELECT_PIO_IDX_MASK);
 }
 
+int get_init(){
+	return pio_get(INIT_PIO,PIO_INPUT,INIT_PIO_IDX_MASK);
+}
+
 /**
 * freq: Frequecia em Hz
 * time: Tempo em ms que o tom deve ser gerado
@@ -134,8 +161,10 @@ void tone(int freq, int time){
 	
 	for(int i = 0; i<qtd_pulsos; i++){
 		set_buzzer();
+		clear_led();
 		delay_us(periodo_ms*500);           // (delay_ms *10^(3))/2 = delau_us
 		clear_buzzer();
+		set_led();
 		delay_us(periodo_ms*500);
 	}
 
@@ -162,6 +191,8 @@ void play(music song){
 		}
 
 		// we only play the note for 90% of the duration, leaving 10% as a pause
+		//desenha_progresso(thisNote, notes);
+		
 		tone(melody[thisNote], noteDuration * 0.9 );
 
 		// Wait for the specief duration before playing the next note.
@@ -176,6 +207,7 @@ void play(music song){
 		// Reinicializando
 		if(thisNote == (2*notes - 2)){
 			init_state = 0;
+			//limpa_progresso();
 		}
 		
 	}
@@ -202,11 +234,15 @@ void limpa_play(){
 
 // ------------ DA POBLEMA -------
 void limpa_estado(){
-	gfx_mono_draw_filled_rect(10,5, 12 , 12, GFX_PIXEL_CLR);
+	gfx_mono_draw_filled_rect(10,5, 10,12, GFX_PIXEL_CLR);
+}
+
+void limpa_nome(){
+	gfx_mono_draw_filled_rect(48,6,86,10, GFX_PIXEL_CLR);
 }
 
 void desenha_botao_pause(){
-	
+	//limpa_estado();
 	limpa_play();
 	
 	// Lado esquerdo 
@@ -222,6 +258,7 @@ void desenha_botao_pause(){
 
 void desenha_botao_play(){
 	
+	//limpa_estado();
 	limpa_pause();
 		
 	gfx_mono_generic_draw_vertical_line(10, 5, 12, GFX_PIXEL_SET );
@@ -231,20 +268,48 @@ void desenha_botao_play(){
 	gfx_mono_generic_draw_vertical_line(18, 9, 4, GFX_PIXEL_SET );
 	gfx_mono_generic_draw_vertical_line(20, 10, 2, GFX_PIXEL_SET );
 	
-	//  Atualiza barra de progresso.
-	//gfx_mono_draw_filled_rect(14,22, i*qtd_cresce , 6,GFX_PIXEL_SET);
-	
-	// sprintf(str_delay, "%4d ms", delay);
-	// gfx_mono_draw_string(str_delay, 65, 8, &sysfont);
 }
 
-void desenha_nome_musica(char * nome){
+void desenha_nome_musica(music playlist[]){
 	
 	char str_music_idx[128];
+	char * nome = playlist[SELECT_IDX_PLAYLIST+1].name;
+	
+	limpa_nome();
 		
-	sprintf(str_music_idx, "%d: ", SELECT_IDX_PLAYLIST);
+	sprintf(str_music_idx, "%d: ", SELECT_IDX_PLAYLIST + 1);
 	gfx_mono_draw_string(str_music_idx, 36, 8, &sysfont);
 	gfx_mono_draw_string(nome, 48 , 8, &sysfont);
+}
+
+void limpa_tudo(){
+	gfx_mono_draw_filled_rect(0,0, 128,32, GFX_PIXEL_CLR);
+}
+
+void anima_init(){
+	
+	for(int i = 0 ; (i<128 && init_screen) ; i++){
+		
+		if(i>0){
+			gfx_mono_draw_filled_rect(i-1,7,2,2, GFX_PIXEL_CLR);
+		}
+			
+		delay_ms(50);
+		gfx_mono_draw_string(".", i , 3, &sysfont);
+	
+		if(i == 127){
+			i = 0;
+		}
+		
+	}
+	
+}
+
+void tela_inicio(){
+	limpa_tudo();
+	gfx_mono_draw_string("-- PLAY THE MUSIC --", 3, 20, &sysfont);
+	anima_init();
+	
 }
 
 /*---------------- MAIN ----------------*/
@@ -267,29 +332,41 @@ int main (void)
 	music playlist[9];
 	fill_playlist(playlist);
 	
+	// Tela de inicio
+	tela_inicio();
+	
 	/* Insert application code here, after the board has been initialized. */
 	while(1) {
 		
 		// Musica selecionada
 		music song = playlist[SELECT_IDX_PLAYLIST];
-		desenha_nome_musica(song.name);
 		
-		if(but_START_PAUSE_flag && !but_SELECT_flag){
-			desenha_botao_play();
-			play(song);
+		if(!init_screen){
+			
+			if(apena_1_vez){
+				limpa_tudo();
+				apena_1_vez = 0;
+			}
+			
+			if(but_START_PAUSE_flag && !but_SELECT_flag){
+				desenha_nome_musica(song.name);
+				desenha_botao_play();
+				play(song);
+			}
+			
+			if(!but_START_PAUSE_flag){
+				desenha_botao_pause();
+			}
+			
+			
+			if(but_SELECT_flag){
+				desenha_nome_musica(song.name);
+				
+				init_state = 0;
+				but_SELECT_flag = 0;
+			}
+			
 		}
-		
-		if(!but_START_PAUSE_flag){
-			desenha_botao_pause();
-		}
-		
-		
-		if(but_SELECT_flag){
-			init_state = 0;
-			but_SELECT_flag = 0;
-		}
-		
-		
-		
+			
 	}
 }

@@ -32,6 +32,12 @@ typedef struct Music music;
 #define LED_PIO_IDX	8
 #define LED_PIO_IDX_MASK	(1 << LED_PIO_IDX)
 
+// Botão de INICIO
+#define INIT_PIO		PIOA
+#define INIT_PIO_ID		ID_PIOA
+#define INIT_PIO_IDX	19
+#define INIT_PIO_IDX_MASK	(1 << INIT_PIO_IDX)
+
 // Botão de START
 #define START_PIO		PIOD
 #define START_PIO_ID	ID_PIOD
@@ -44,6 +50,25 @@ typedef struct Music music;
 #define SELECT_PIO_IDX	31
 #define SELECT_PIO_IDX_MASK (1 << SELECT_PIO_IDX)
 
+/*
+// Led1
+#define LED1_PIO		PIOA
+#define LED1_PIO_ID		ID_PIOA
+#define LED1_PIO_IDX	0
+#define LED1_PIO_IDX_MASK	(1 << LED1_PIO_IDX)
+
+// Led2
+#define LED2_PIO		PIOB
+#define LED2_PIO_ID		ID_PIOB
+#define LED2_PIO_IDX	2
+#define LED2_PIO_IDX_MASK	(1 << LED2_PIO_IDX)
+
+// Led3
+#define LED3_PIO		PIOB
+#define LED3_PIO_ID		ID_PIOB
+#define LED3_PIO_IDX	2
+#define LED3_PIO_IDX_MASK	(1 << LED3_PIO_IDX)
+*/
 
 /*---------------- PROTÓTIPOS ----------------*/
 
@@ -66,6 +91,9 @@ int get_startstop();
 
 // Retorna status do botão SELECAO (1/0)
 int get_selecao();
+
+// Botao de tela de inicio (But3)
+int get_init();
 
 //Funcao para testar o buzzer
 void buzzer_test(int freq);
