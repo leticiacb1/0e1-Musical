@@ -24,7 +24,7 @@ void fill_playlist(music* playlist){
 	//Definindo structs de musicas
 	music asa_branca = {"ASA BRANCA", TIME_ASABRANCA, &asa_branca_melody, SIZE_ASA};
 	music doom = {"DOOM", TIME_DOOM, &doom_melody, SIZE_DOOM};
-	music game_of_thrones = {"GAME OF THRONES", TIME_GAMEOFTHRONES, &game_of_thrones_melody , SIZE_GAMEOFTHRONES};
+	music game_of_thrones = {"GOT", TIME_GAMEOFTHRONES, &game_of_thrones_melody , SIZE_GAMEOFTHRONES};
 	music harry_potter = {"HARRY POTTER", TIME_HARRYPOTTER, &harry_potter_melody , SIZE_HARRYPOTTER};
 	music mario = {"MARIO WORLD", TIME_MARIO, &mario_melody , SIZE_MARIO};
 	music pacman = {"PACMAN", TIME_PACMAN, &pacman_melody , SIZE_PACMAN};

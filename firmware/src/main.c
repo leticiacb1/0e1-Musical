@@ -182,6 +182,71 @@ void play(music song){
 	
 }
 
+void limpa_pause(){
+	// Limpa lado esquerdo
+	gfx_mono_generic_draw_vertical_line(10, 5, 12, GFX_PIXEL_CLR );
+	gfx_mono_generic_draw_vertical_line(11, 5, 12, GFX_PIXEL_CLR );
+	gfx_mono_generic_draw_vertical_line(12, 5, 12, GFX_PIXEL_CLR );
+	
+	// Limpa lado direito 
+	gfx_mono_generic_draw_vertical_line(18, 5, 12, GFX_PIXEL_CLR );
+	gfx_mono_generic_draw_vertical_line(19, 5, 12, GFX_PIXEL_CLR );
+	gfx_mono_generic_draw_vertical_line(20, 5, 12, GFX_PIXEL_CLR );		
+}
+
+void limpa_play(){
+	// Limpa o meio
+	gfx_mono_generic_draw_vertical_line(14, 7, 8, GFX_PIXEL_CLR );
+	gfx_mono_generic_draw_vertical_line(16, 8, 6, GFX_PIXEL_CLR );
+}
+
+// ------------ DA POBLEMA -------
+void limpa_estado(){
+	gfx_mono_draw_filled_rect(10,5, 12 , 12, GFX_PIXEL_CLR);
+}
+
+void desenha_botao_pause(){
+	
+	limpa_play();
+	
+	// Lado esquerdo 
+	gfx_mono_generic_draw_vertical_line(10, 5, 12, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(11, 5, 12, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(12, 5, 12, GFX_PIXEL_SET );
+
+	// Lado direito 
+	gfx_mono_generic_draw_vertical_line(18, 5, 12, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(19, 5, 12, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(20, 5, 12, GFX_PIXEL_SET );
+}
+
+void desenha_botao_play(){
+	
+	limpa_pause();
+		
+	gfx_mono_generic_draw_vertical_line(10, 5, 12, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(12, 6, 10, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(14, 7, 8, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(16, 8, 6, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(18, 9, 4, GFX_PIXEL_SET );
+	gfx_mono_generic_draw_vertical_line(20, 10, 2, GFX_PIXEL_SET );
+	
+	//  Atualiza barra de progresso.
+	//gfx_mono_draw_filled_rect(14,22, i*qtd_cresce , 6,GFX_PIXEL_SET);
+	
+	// sprintf(str_delay, "%4d ms", delay);
+	// gfx_mono_draw_string(str_delay, 65, 8, &sysfont);
+}
+
+void desenha_nome_musica(char * nome){
+	
+	char str_music_idx[128];
+		
+	sprintf(str_music_idx, "%d: ", SELECT_IDX_PLAYLIST);
+	gfx_mono_draw_string(str_music_idx, 36, 8, &sysfont);
+	gfx_mono_draw_string(nome, 48 , 8, &sysfont);
+}
+
 /*---------------- MAIN ----------------*/
 
 int main (void)
@@ -192,27 +257,39 @@ int main (void)
 	
 	delay_init();
 	
+	// Init OLED
+	gfx_mono_ssd1306_init();
+	
 	// Init button
 	io_init();
 	
 	// Preenchendo playlist de música
 	music playlist[9];
 	fill_playlist(playlist);
-  
+	
 	/* Insert application code here, after the board has been initialized. */
 	while(1) {
 		
 		// Musica selecionada
 		music song = playlist[SELECT_IDX_PLAYLIST];
-			
+		desenha_nome_musica(song.name);
+		
 		if(but_START_PAUSE_flag && !but_SELECT_flag){
+			desenha_botao_play();
 			play(song);
 		}
+		
+		if(!but_START_PAUSE_flag){
+			desenha_botao_pause();
+		}
+		
 		
 		if(but_SELECT_flag){
 			init_state = 0;
 			but_SELECT_flag = 0;
 		}
+		
+		
 		
 	}
 }
