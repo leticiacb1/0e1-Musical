@@ -222,6 +222,15 @@ void tone(int freq, int time){
 
 }
 
+void limpa_progresso(){
+	gfx_mono_draw_filled_rect(2,20, PROGRESS_WIDTH+6, PROGRESS_HEIGHT+4, GFX_PIXEL_CLR);
+}
+
+void progresso(int multiplo, int delta){
+	gfx_mono_draw_filled_rect(2,23, PROGRESS_WIDTH/delta * multiplo,PROGRESS_HEIGHT, GFX_PIXEL_SET);
+	
+}
+
 void play(music song){
 	
 	// Array de melodias
@@ -231,6 +240,9 @@ void play(music song){
 	int wholenote = (60000 * 4) / song.music_time;
 	int divider = 0, noteDuration = 0;
 	int notes = song.size / sizeof((*melody)) / 2;
+	
+	//  Quão maior é o numero de notas em relação ao tamanho da barra
+	int delta = 20;
 	
 	for(int thisNote = init_state; (thisNote < notes * 2) && but_START_PAUSE_flag && !but_SELECT_flag ; thisNote = thisNote + 2){
 		
@@ -243,7 +255,12 @@ void play(music song){
 		}
 
 		// we only play the note for 90% of the duration, leaving 10% as a pause
-		//desenha_progresso(thisNote, notes);
+		// Controle para desenhar barra progresso:
+		
+		if ((thisNote/2)%(notes/delta) == 0) {
+			int multiplo = (thisNote/2)/(notes/delta);
+			progresso(multiplo, delta);
+		}
 		
 		tone(melody[thisNote], noteDuration * 0.9 );
 
@@ -259,7 +276,7 @@ void play(music song){
 		// Reinicializando
 		if(thisNote == (2*notes - 2)){
 			init_state = 0;
-			//limpa_progresso();
+			limpa_progresso();
 		}
 		
 	}
@@ -333,29 +350,37 @@ void limpa_tudo(){
 	gfx_mono_draw_filled_rect(0,0, 128,32, GFX_PIXEL_CLR);
 }
 
+void desenha_traco(int x, int y, gfx_mono_color_t color_px){
+	gfx_mono_draw_filled_rect(x,y,2,1, color_px);
+}
+
 void anima_init(){
 	
-	for(int i = 0 ; (i<128 && init_screen) ; i++){
+	while(init_screen){
 		
-		if(i>0){
-			gfx_mono_draw_filled_rect(i-1,7,2,2, GFX_PIXEL_CLR);
+		for(int i = 0; i<=128 && init_screen;i+=8){
+			delay_ms(100);
+			desenha_traco(i+8,4,GFX_PIXEL_SET);
+			delay_ms(50);
+			desenha_traco(120-i,30,GFX_PIXEL_SET);
 		}
-			
-		delay_ms(50);
-		gfx_mono_draw_string(".", i , 3, &sysfont);
-		delay_ms(50);
 	
-		if(i == 127){
-			i = 0;
+		for(int i = 0; i<=128 && init_screen ;i+=8){
+			delay_ms(100);
+			desenha_traco(i+8,4,GFX_PIXEL_CLR);
+			delay_ms(50);
+			desenha_traco(120-i,30,GFX_PIXEL_CLR);
 		}
 		
+		delay_ms(3000);
+	
 	}
 	
 }
 
 void tela_inicio(){
 	limpa_tudo();
-	gfx_mono_draw_string("-- PLAY THE MUSIC --", 3, 20, &sysfont);
+	gfx_mono_draw_string("-- PLAY THE MUSIC --", 3, 16, &sysfont);
 	anima_init();
 	
 }
@@ -409,6 +434,7 @@ int main (void)
 			
 			if(but_SELECT_flag){
 				desenha_nome_musica(song.name);
+				limpa_progresso();
 				
 				init_state = 0;
 				but_SELECT_flag = 0;

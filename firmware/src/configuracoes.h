@@ -20,6 +20,10 @@ struct Music {
 
 typedef struct Music music;
 
+// Progress Bar
+#define PROGRESS_WIDTH	120
+#define PROGRESS_HEIGHT 6 
+
 // Buzzer
 #define BUZZER_PIO		PIOC
 #define BUZZER_PIO_ID	ID_PIOC
