@@ -55,6 +55,7 @@ O projeto possui as seguintes pastas e arquivos relevantes para o entendimento d
 <div align = "center">
   <img src="img_README/aps1.jpeg" width="400"></img>
 </div>
+<br></br>
 
 Materiais necessários:
 
