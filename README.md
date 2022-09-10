@@ -1,33 +1,102 @@
-# 21a-emb-aps1
+### 21a-emb-aps1
+<br>
 
-Embarcados - APS 1 - Musical!
+<div align = "center" >
+<h2> BUZZER + SAME70 = Um Musical! 🎷️</h2>
+</div>
+<br>
 
-Para maiores informações acesse:
+### 📑️ Documentação 
+<br>
 
-https://insper.github.io/ComputacaoEmbarcada/APS-1-Musical/
-
-Issues serão abertos neste repositório para guiar o desenvolvimento
-da dupla. **Vocês não devem fechar os issues, apenas a equipe de professores!**, porém devem referenciar nos commits quando um issue 
-foi concluído! Isso gerará um PR no classroom que será avaliado pela equipe.
-
-## Documentação
-
-TODO: Aualizar pinos
-
-| Função  | PINO (ex: PA11) |
+| Função  |      PINOS      |
 |---------|-----------------|
 | BUZZER  |      PC13       |
 | START   |      PD28       |
 | SELEÇÃO |      PC31       |
+| INICIO  |      PA19       |
+| LED1    |      PA0        |
+| LED2    |      PC30       |
+| LED3    |      PB2        |
+<br>
 
-### Imagem da montagem
+O projeto possui as seguintes pastas e arquivos relevantes para o entendimento do trabalho:
 
-TODO: Inserir imagem do sistema montado
 
-### Vídeo do projeto
+`firmware/src/main.c` : Arquivo que contém a função main do código. Demais arquivos estão referenciados e importados nesse registro.
 
-TODO: Inserir link para vídeo do projeto funcionando
 
-### Músicas e Direitos autorais
+`firmware/src/configurações.h`: Arquivo que contém defines e protótipos de funções do projeto.
 
-TODO: Listar músicas e dar crédio da onde saiu:
+
+`firmware/src/musicas.c` : Arquivo que contém funções reponsáveis pelos tons tocados pelo buzzer. 
+
+
+`firmware/src/melodias` : Pasta que contém arquivos .h com defines de tons e array de melodia da música. 
+
+
+`firmware/src/ASF` , `firmware/src/config` , `firmware/src/oled` , `firmware/src/asf.h` : configurações gerais. 
+
+
+### 🏗️ Montagem 
+
+
+---- imagem aqui ----
+
+Materiais necessários:
+
+- Placa SAME 70 X PLAINED 
+
+- Placa OLED1
+
+- Protoboard
+
+- Buzzer 
+
+- Jumpers
+
+Link para <b>vídeo do projeto funcionando</b>: ----- link aqui -----
+
+<br>
+
+### ⚙️ Configurações e Código 
+<br>
+
+
+Para o correto funcionamento é necessário que se esteja no sistema operacional Windows, caso esteja em Linux/Mac é necessário o uso de maquina virtual com  Windows 10 instalado. Nesse último caso,  recomenda-se fortemente o uso de [VMWARE PLAYER](https://www.vmware.com/products/workstation-player.html) como máquina virtual.
+
+É necessário também a instalação do Software: [Microchip Studio](https://www.microchip.com/content/dam/mchp/documents/parked-documents/as-installer-7.0.2542-web.exe).
+
+Por fim, com o circuito montado e conectado ao computador abra o projeto no Microchip Studio, rode o projeto e divirta-se!
+
+###  📌️ Agradecimentos
+
+Todas as músicas utilizadas nesse projeto foram retiradas do repositório [ArguinoSongs](https://github.com/robsoncouto/arduino-songs). 
+
+Agradecimento especial ao usuário dono do repositório [robsoncouto](https://github.com/robsoncouto).
+
+Músicas utilizadas :
+
+- [Asa branca](https://github.com/robsoncouto/arduino-songs/blob/master/asabranca/asabranca.ino)
+
+- [DOOM](https://github.com/robsoncouto/arduino-songs/blob/master/doom/doom.ino) 
+
+- [Game of Thrones](https://github.com/robsoncouto/arduino-songs/blob/master/gameofthrones/gameofthrones.ino)
+
+- [Harry Potter](https://github.com/robsoncouto/arduino-songs/blob/master/harrypotter/harrypotter.ino)
+
+- [Mario](https://github.com/robsoncouto/arduino-songs/blob/master/supermariobros/supermariobros.ino)
+
+- [Pacman](https://github.com/robsoncouto/arduino-songs/blob/master/pacman/pacman.ino)
+
+- [Star Wars](https://github.com/robsoncouto/arduino-songs/blob/master/starwars/starwars.ino)
+
+- [The God Father](https://github.com/robsoncouto/arduino-songs/blob/master/thegodfather/thegodfather.ino)
+
+- [Zelda](https://github.com/robsoncouto/arduino-songs/blob/master/zeldatheme/zeldatheme.ino)
+<br>
+
+
+Repositório da disciplina do projeto : [Computacao Embarcada](https://insper.github.io/ComputacaoEmbarcada/)
+
+@2022, Insper. Quinto Semestre, Engenharia da Computação.
