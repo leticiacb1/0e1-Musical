@@ -6,6 +6,11 @@
 </div>
 <br>
 
+<div align = "center">
+  <img src="img_README/aps1.gif" width="450"></img>
+</div>
+
+
 ### 📑️ Documentação 
 <br>
 
@@ -41,12 +46,15 @@ O projeto possui as seguintes pastas e arquivos relevantes para o entendimento d
 
 
 -`firmware/src/ASF` , `firmware/src/config` , `firmware/src/oled` , `firmware/src/asf.h` : configurações gerais. 
+<br>
 
 
 ### 🏗️ Montagem 
 
 
----- imagem aqui ----
+<div align = "center">
+  <img src="img_README/aps1.jpeg" width="400"></img>
+</div>
 
 Materiais necessários:
 
