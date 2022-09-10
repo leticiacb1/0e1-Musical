@@ -1,13 +1,18 @@
 
 /*
- * musicas.h
+ * musica.c
  *
- * Created: 04/09/2022 12:26:12
+ * Created: 10/09/2022 13:40:53
  *  Author: Leticia
  */ 
 
 
-#include "configuracoes.h"
+/*-------------------------------------------*/
+/*------------------ INCLUDES ---------------*/
+/*-------------------------------------------*/
+
+#include <asf.h>
+
 #include "melodias/asa_branca.h"
 #include "melodias/doom.h"
 #include "melodias/game_of_thrones.h"
@@ -17,6 +22,63 @@
 #include "melodias/star_wars.h"
 #include "melodias/the_god_father.h"
 #include "melodias/zelda.h"
+
+#include "configuracoes.h"
+#include "musica.h"
+#include "leds.h"
+
+
+/*-------------------------------------------*/
+/*------------------ FUNCOES ----------------*/
+/*-------------------------------------------*/
+
+
+void set_buzzer(){
+	pio_set(BUZZER_PIO, BUZZER_PIO_IDX_MASK);
+}
+
+void clear_buzzer(){
+	pio_clear(BUZZER_PIO, BUZZER_PIO_IDX_MASK);
+}
+
+
+
+void buzzer_test(int freq){
+	
+	int conversao_s_us = 1000000.0;
+	float meio_periodo = 1.0/(2*freq);
+	
+	set_buzzer();
+	delay_us(conversao_s_us*meio_periodo);
+	clear_buzzer();
+	delay_us(conversao_s_us*meio_periodo);
+}
+
+
+/**
+* freq: Frequecia em Hz
+* time: Tempo em ms que o tom deve ser gerado
+*/
+void tone(int freq, int time){
+	float conversao_s_ms = 1000.0;
+	float periodo_ms = conversao_s_ms/(freq);
+	int qtd_pulsos = time/periodo_ms;
+	
+	for(int i = 0; i<qtd_pulsos; i++){
+		
+		acende_leds(freq);
+		set_buzzer();
+		
+		delay_us(periodo_ms*500);           // (delay_ms *10^(3))/2 = delau_us
+		
+		apaga_leds();
+		clear_buzzer();
+		
+		delay_us(periodo_ms*500);
+		
+	}
+
+}
 
 
 void fill_playlist(music* playlist){
@@ -43,3 +105,4 @@ void fill_playlist(music* playlist){
 	playlist[7] = the_god_father;
 	playlist[8] = zelda;
 }
+
