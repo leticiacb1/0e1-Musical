@@ -23,19 +23,24 @@
 O projeto possui as seguintes pastas e arquivos relevantes para o entendimento do trabalho:
 
 
-`firmware/src/main.c` : Arquivo que contém a função main do código. Demais arquivos estão referenciados e importados nesse registro.
+-`firmware/src/main.c` : Arquivo que contém a função main do código. Demais arquivos estão referenciados e importados nesse registro.
 
 
-`firmware/src/configurações.h`: Arquivo que contém defines e protótipos de funções do projeto.
+-`firmware/src/configurações.h`: Arquivo que contém defines e protótipos de funções do arquivo main.c.
 
 
-`firmware/src/musicas.c` : Arquivo que contém funções reponsáveis pelos tons tocados pelo buzzer. 
+-`firmware/src/leds.h` e `firmware/src/leds.c` : Arquivo de definiçõe e protótipos de funções e arquivo que contém funções reponsáveis pela "ativação" dos leds.
 
 
-`firmware/src/melodias` : Pasta que contém arquivos .h com defines de tons e array de melodia da música. 
+-`firmware/src/display.h` e `firmware/src/display.c` : Arquivo de definiçõe e protótipos de funções e arquivo que contém funções reponsáveis pela interação com o display OLED.
 
 
-`firmware/src/ASF` , `firmware/src/config` , `firmware/src/oled` , `firmware/src/asf.h` : configurações gerais. 
+-`firmware/src/musicas.h` e`firmware/src/musicas.c` :  Arquivo de definiçõe e protótipos de funções e  arquivo que contém funções reponsáveis pelos tons tocados pelo buzzer. 
+
+-`firmware/src/melodias` : Pasta que contém arquivos .h com defines de tons e array de melodia da música. 
+
+
+-`firmware/src/ASF` , `firmware/src/config` , `firmware/src/oled` , `firmware/src/asf.h` : configurações gerais. 
 
 
 ### 🏗️ Montagem 
@@ -55,7 +60,7 @@ Materiais necessários:
 
 - Jumpers
 
-Link para <b>vídeo do projeto funcionando</b>: ----- link aqui -----
+Link para <b>vídeo do projeto funcionando</b>: [Clique Aqui](https://youtube.com/shorts/ZrKetDQtF9A)
 
 <br>
 
