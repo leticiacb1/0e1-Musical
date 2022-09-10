@@ -9,7 +9,7 @@
 <div align = "center">
   <img src="img_README/aps1.gif" width="450"></img>
 </div>
-
+<br>
 
 ### 📑️ Documentação 
 <br>
@@ -46,7 +46,7 @@ O projeto possui as seguintes pastas e arquivos relevantes para o entendimento d
 
 
 -`firmware/src/ASF` , `firmware/src/config` , `firmware/src/oled` , `firmware/src/asf.h` : configurações gerais. 
-<br>
+<br></br>
 
 
 ### 🏗️ Montagem 
@@ -81,6 +81,7 @@ Para o correto funcionamento é necessário que se esteja no sistema operacional
 É necessário também a instalação do Software: [Microchip Studio](https://www.microchip.com/content/dam/mchp/documents/parked-documents/as-installer-7.0.2542-web.exe).
 
 Por fim, com o circuito montado e conectado ao computador abra o projeto no Microchip Studio, rode o projeto e divirta-se!
+<br></br>
 
 ###  📌️ Agradecimentos
 
