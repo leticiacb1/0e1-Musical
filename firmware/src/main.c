@@ -21,7 +21,7 @@
 
 volatile int SELECT_IDX_PLAYLIST = 0;
 volatile int init_state = 0;
-volatile int apena_1_vez = 1;
+
 
 /* flag */
 
@@ -251,6 +251,12 @@ int main (void)
 	// Tela de inicio
 	tela_inicio();
 	
+	int apena_1_vez = 1;
+	if(apena_1_vez){
+		limpa_tudo();
+		apena_1_vez = 0;
+	}
+	
 	/* Insert application code here, after the board has been initialized. */
 	while(1) {
 		
@@ -258,11 +264,6 @@ int main (void)
 		music song = playlist[SELECT_IDX_PLAYLIST];
 		
 		if(!init_screen){
-			
-			if(apena_1_vez){
-				limpa_tudo();
-				apena_1_vez = 0;
-			}
 			
 			if(but_START_PAUSE_flag && !but_SELECT_flag){
 				desenha_nome_musica(song.name, SELECT_IDX_PLAYLIST);
