@@ -64,6 +64,11 @@ void tone(int freq, int time){
 	float periodo_ms = conversao_s_ms/(freq);
 	int qtd_pulsos = time/periodo_ms;
 	
+	if (freq == 0){
+		delay_ms(time);
+		return;
+	}
+	
 	for(int i = 0; i<qtd_pulsos; i++){
 		
 		acende_leds(freq);
