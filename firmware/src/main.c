@@ -44,15 +44,7 @@ void but_init(void){
 
 void but_start_pause_callback(void)
 {
-	if( but_START_PAUSE_flag == 1 ){
-		
-		// Caso esteja em "play" pausar
-		but_START_PAUSE_flag = 0;
-	}else{
-		
-		// Caso esteja em "pause" dar play
-		but_START_PAUSE_flag = 1;
-	}
+	but_START_PAUSE_flag = !but_START_PAUSE_flag;
 }
 
 void but_select_callback(void){
