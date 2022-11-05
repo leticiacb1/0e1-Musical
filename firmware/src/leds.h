@@ -9,7 +9,8 @@
 /*-------------------------------------------*/
 /*----------------- DEFINES -----------------*/
 /*-------------------------------------------*/
-
+#ifndef LEDS_H
+#define LEDS_H
 // Configurações dos LEDS
 #define LED1_PIO            PIOA
 #define LED1_PIO_ID         ID_PIOA
@@ -45,3 +46,4 @@ void acende_leds(int freq);
 
 // Função apaga leds
 void apaga_leds();
+#endif

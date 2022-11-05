@@ -9,7 +9,8 @@
 /*-------------------------------------------*/
 /*------------------ DEFINES ----------------*/
 /*-------------------------------------------*/
-
+#ifndef MUSICA_H
+#define MUSICA_H
 // Buzzer
 #define BUZZER_PIO		PIOC
 #define BUZZER_PIO_ID	ID_PIOC
@@ -50,3 +51,4 @@ void fill_playlist(music* playlist);
 
 //Funcao para tocar musica
 void play(music song);
+#endif

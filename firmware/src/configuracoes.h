@@ -10,7 +10,8 @@
 /*-------------------------------------------*/
 /*----------------- DEFINES -----------------*/
 /*-------------------------------------------*/
-
+#ifndef CONFIGURACOES_H
+#define CONFIGURACOES_H
 // Botão de INICIO
 #define INIT_PIO		PIOA
 #define INIT_PIO_ID		ID_PIOA
@@ -50,4 +51,4 @@ void anima_init();
 
 // Função tela de inicio
 void tela_inicio();
-
+#endif

@@ -10,7 +10,8 @@
 /*-------------------------------------------*/
 /*----------------- DEFINES -----------------*/
 /*-------------------------------------------*/
-
+#ifndef DISPLAY_H
+#define DISPLAY_H
 // Progress Bar
 #define PROGRESS_WIDTH	120
 #define PROGRESS_HEIGHT 6
@@ -49,3 +50,4 @@ void limpa_tudo();
 
 // desenha traco da animação (tela de inicio)
 void desenha_traco(int x, int y, gfx_mono_color_t color_px);
+#endif
