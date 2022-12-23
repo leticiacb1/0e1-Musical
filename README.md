@@ -1,5 +1,3 @@
-### 21a-emb-aps1
-<br>
 
 <div align = "center" >
 <h2> BUZZER + SAME70 = Um Musical! 🎷️</h2>
@@ -10,6 +8,9 @@
   <img src="img_README/aps1.gif" width="450"></img>
 </div>
 <br>
+
+Esse projeto utiliza o microcontrolador SAM70 com um extensão de display, OLED1 Xplained Pro,  em conjunto com um buzzer.
+O objetivo é  produzir um conunto de tons musicais setando valores de 0 e 1 no buzzer, mostrando também a música que esta sendo tocada, o progresso, e opções para dar play/pausar/passar de música.
 
 ### 📑️ Documentação 
 <br>
